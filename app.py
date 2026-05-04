@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import re, os
 
 app = Flask(__name__)
@@ -82,19 +82,9 @@ def simulate_llm(user_input: str) -> str:
 
     return DISTRACTION_RESPONSES[len(user_input) % len(DISTRACTION_RESPONSES)]
 
-
 @app.route("/")
 def index():
-    return """
-    <html><head><title>NullGrids ARIA</title></head>
-    <body style='font-family:monospace;background:#0d0d1a;color:#7f7fff;padding:40px'>
-    <h1>ARIA — NullGrids Internal Assistant</h1>
-    <p>POST to <code>/chat</code> with JSON: <code>{"message": "your question"}</code></p>
-    <p>ARIA is your internal AI assistant. She is bound by strict guidelines.</p>
-    <hr>
-    <p style='color:#444'>System: ARIA v2.1 | Classification: INTERNAL ONLY</p>
-    </body></html>
-    """
+    return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
